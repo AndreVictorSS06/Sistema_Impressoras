@@ -43,7 +43,8 @@ class Api:
     def _get_root_path(self):
         """Busca a raiz do projeto de forma absoluta e robusta."""
         if getattr(sys, 'frozen', False):
-            raiz = Path(sys.executable).parent
+            # No PyInstaller --onefile, arquivos internos ficam no _MEIPASS
+            raiz = Path(sys._MEIPASS)
         else:
             # Pega o caminho absoluto do api.py e sobe 2 níveis (app -> raiz)
             raiz = Path(os.path.abspath(__file__)).parent.parent

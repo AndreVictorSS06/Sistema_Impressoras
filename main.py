@@ -36,9 +36,10 @@ def verificar_em_segundo_plano(window, api, base_dir):
     threading.Thread(target=tarefa, daemon=True).start()
 
 def run():
-    # Identificação de pasta base (Garante funcionamento no .EXE)
+    # Identificação de pasta base (Garante funcionamento no .EXE --onefile)
     if getattr(sys, 'frozen', False):
-        base_dir = os.path.dirname(sys.executable)
+        # Pasta temporária onde o PyInstaller extrai os arquivos internos
+        base_dir = sys._MEIPASS
     else:
         base_dir = os.path.dirname(os.path.abspath(__file__))
     
@@ -63,11 +64,11 @@ def run():
     
     api._window = window
 
-    # Inicia o app e chama a verificação logo após a abertura da janela
+    # Inicia o app em modo produção (debug=False esconde o DevTools)
     webview.start(
         verificar_em_segundo_plano, 
         (window, api, base_dir), 
-        debug=True, 
+        debug=False, 
     )
 
 if __name__ == '__main__':

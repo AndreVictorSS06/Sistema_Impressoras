@@ -36,9 +36,9 @@ _STORAGE = get_storage_path()
 _STAMP_FILE = os.path.join(_STORAGE, ".lic_stamp") # Arquivo oculto de timestamp
 _EXT_FILE   = os.path.join(_STORAGE, ".lic_ext")   # Arquivo oculto de extensão
 
-# Carrega segredos do arquivo .env na raiz
+# Carrega segredos do arquivo .env na raiz (Interno ao EXE)
 if getattr(sys, 'frozen', False):
-    _ROOT = Path(sys.executable).parent
+    _ROOT = Path(sys._MEIPASS)
 else:
     _ROOT = Path(__file__).resolve().parent.parent.parent
 
