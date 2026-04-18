@@ -54,7 +54,7 @@ def run():
 
     window = webview.create_window(
         'Sistema de Gestão Serrana', 
-        url=index_url, # Usando a URL formatada
+        url=index_url, 
         js_api=api,
         width=1000, 
         height=750, 

@@ -23,28 +23,21 @@ let itensRelatorio = [];
                         showToast("Sistema sem conexão: validando pelo relógio local.", "error");
                     }
                 }
-
                 await carregarImpressoras();
                 configurarDataFiltro();
                 return true;
             } catch (e) {
-                console.error("❌ Erro ao inicializar dados com a API:", e);
+                // Silencioso em produção
             }
         }
         
         if (retries > 0) {
             retries--;
             setTimeout(checkApi, 200);
-        } else {
-            console.error("❌ Timeout: API não encontrada após várias tentativas.");
-            if (typeof showToast === "function") {
-                showToast("Erro: Conexão com o sistema demorou muito. Tente reiniciar.", "error");
-            }
         }
         return false;
     }
 
-    // Tenta detectar imediatamente e via evento
     checkApi();
     window.addEventListener("pywebviewready", checkApi);
 })();
