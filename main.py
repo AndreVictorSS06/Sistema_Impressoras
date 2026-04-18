@@ -16,38 +16,21 @@ os.environ["WEBVIEW_DISABLE_ACCESSIBILITY"] = "1"
 def verificar_em_segundo_plano(window, api, base_dir):
     def tarefa():
         try:
-            start = time.time()
-            print("🚀 Início do background")
-
-            # 1. Inicializa Banco de Dados
             init_db()
-            print(f"⏱️ Tempo DB: {time.time() - start:.2f}s")
-
             # Pequena pausa para garantir que o front-end carregou o "loading"
-            time.sleep(0.5)
+            time.sleep(0.8)
 
-            # 2. Verificação da Licença (NTP)
             res = check_license()
-            print(f"⏱️ Tempo Licença: {time.time() - start:.2f}s")
 
             # Guarda o resultado na API para o Front-end consultar via JS
             api.license_info = res
 
             if not res["valid"]:
-                # Caminho absoluto para a tela de bloqueio
                 expired_path = os.path.abspath(os.path.join(base_dir, 'gui', 'blocked', 'license_expired.html'))
                 file_url = 'file:///' + expired_path.replace('\\', '/')
-                
-                print("❌ Licença Inválida. Redirecionando...")
-                print(f"DEBUG - Caminho absoluto: {expired_path}")
-                print(f"DEBUG - O arquivo existe? {os.path.exists(expired_path)}")
                 window.load_url(file_url)
-            else:
-                print("✅ Sistema validado e pronto")
-        except Exception as e:
-            print(f"❌ ERRO CRÍTICO NO BACKGROUND: {e}")
-            import traceback
-            traceback.print_exc()
+        except Exception:
+            pass
 
     # Inicia a thread em modo daemon (morre se o app fechar)
     threading.Thread(target=tarefa, daemon=True).start()
@@ -64,10 +47,8 @@ def run():
     # Caminho do Index (Convertido para Absolute Path)
     index_path = os.path.abspath(os.path.join(base_dir, 'gui', 'main', 'index.html'))
 
-    # --- LOG DE DEPURAÇÃO ---
-    print(f"DEBUG: Procurando arquivo em: {index_path}")
     if not os.path.exists(index_path):
-        print("❌ ERRO CRÍTICO: O arquivo index.html NÃO existe nesse caminho!")
+        sys.exit(1)
 
     index_url = 'file:///' + index_path.replace('\\', '/')
 

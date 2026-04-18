@@ -35,8 +35,8 @@ class Api:
             
             if index_path.exists() and self._window:
                 self._window.load_url(index_path.as_uri())
-        except Exception as e:
-            print(f"❌ Erro ao voltar para o início: {e}")
+        except Exception:
+            pass
 
     # --- LÓGICA DE NAVEGAÇÃO E LICENÇA ---
 
@@ -48,7 +48,6 @@ class Api:
             # Pega o caminho absoluto do api.py e sobe 2 níveis (app -> raiz)
             raiz = Path(os.path.abspath(__file__)).parent.parent
         
-        print(f"DEBUG RAIZ: {raiz}")
         return raiz
 
     def renovar_licenca(self, senha_digitada):
@@ -59,24 +58,14 @@ class Api:
                 try:
                     raiz = self._get_root_path()
                     
-                    # Tentativa 1: Caminho padrão (gui/main/index.html)
                     index_path = raiz / "gui" / "main" / "index.html"
-                    
-                    # Tentativa 2: Fallback (gui/index.html) caso a pasta 'main' não exista
                     if not index_path.exists():
                         index_path = raiz / "gui" / "index.html"
 
-                    print(f"🔎 DEBUG - Verificando arquivo em: {index_path}")
-
                     if index_path.exists() and self._window:
-                        url_final = index_path.as_uri() 
-                        print(f"🚀 Carregando interface: {url_final}")
-                        self._window.load_url(url_final)
-                    else:
-                        print(f"❌ Erro fatal: Arquivo index.html não localizado em {raiz}")
-                        
-                except Exception as e:
-                    print(f"❌ Erro crítico no redirecionamento: {e}")
+                        self._window.load_url(index_path.as_uri())
+                except Exception:
+                    pass
 
             # O Timer de 0.5s é essencial para não travar a comunicação RPC
             threading.Timer(0.5, execute_redirect).start()
@@ -151,8 +140,7 @@ class Api:
                 cursor.execute(query, (nome_impressora,))
                 result = cursor.fetchone()
                 return result[0] if result else 0
-        except Exception as e:
-            print(f"❌ Erro ao buscar última leitura: {e}")
+        except Exception:
             return 0
 
     def get_license_info(self):
@@ -177,8 +165,7 @@ class Api:
             with open(save_path, 'wb') as f:
                 f.write(base64.b64decode(conteudo_base64))
             return True
-        except Exception as e:
-            print(f"❌ Erro ao exportar Excel: {e}")
+        except Exception:
             return False
 
 
@@ -202,7 +189,6 @@ class Api:
 
             # 2. Validação de existência
             if not template_path.exists():
-                print(f"❌ ERRO: Template não encontrado em: {template_path}")
                 return False
 
             # 3. Leitura e processamento
@@ -264,25 +250,20 @@ class Api:
             
             # 8. Trigger de Impressão e Limpeza em Background
             def disparar_e_limpar():
-                # Delay necessário para o Webview carregar o CSS/Imagens antes do print
                 time.sleep(1.5)
                 if self._window:
                     self._window.evaluate_js("window.print();")
                 
-                # Aguarda 15 segundos para garantir que o usuário interagiu com a caixa de diálogo
-                # e o sistema operacional já processou o arquivo.
                 time.sleep(15)
                 try:
                     if os.path.exists(temp_file):
                         os.remove(temp_file)
-                        print(f"🧹 Limpeza concluída: {temp_file} removido.")
-                except Exception as e:
-                    print(f"⚠️ Falha na limpeza (arquivo pode estar aberto): {e}")
+                except Exception:
+                    pass
 
             threading.Thread(target=disparar_e_limpar, daemon=True).start()
             
             return True
 
-        except Exception as e:
-            print(f"❌ Erro crítico ao gerar PDF: {e}")
+        except Exception:
             return False

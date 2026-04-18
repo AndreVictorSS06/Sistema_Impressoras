@@ -49,7 +49,7 @@ _SECRET = os.getenv("LICENSE_SECRET", "fallback_serrana_2024")
 # ============================================================
 #  Data base de expiracao do sistema
 # ============================================================
-EXPIRY_DATE = datetime(2026, 4, 10, tzinfo=timezone.utc)
+EXPIRY_DATE = datetime(2026, 8, 10, tzinfo=timezone.utc)
 _ADMIN_PASS = os.getenv("ADMIN_PASSWORD", "Serrana@2026")
 _SENHA_HASH = hashlib.sha256(_ADMIN_PASS.encode()).hexdigest()
 _EXTENSION_DAYS = 180
@@ -95,52 +95,25 @@ def _load_ext():
     except: return None
 
 def _get_ntp_time():
-    import time
     import ntplib
     from datetime import datetime, timezone
 
-    print("\n🌐 Iniciando verificação NTP...")
-
     servers = ["a.st1.ntp.br", "pool.ntp.org"]
-
     for server in servers:
         try:
-            print(f"⏳ Tentando servidor: {server}")
-            inicio = time.time()
-
             client = ntplib.NTPClient()
             response = client.request(server, version=3, timeout=1)
-
-            fim = time.time()
-            tempo = fim - inicio
-
-            data = datetime.fromtimestamp(response.tx_time, tz=timezone.utc)
-
-            print(f"✅ Sucesso com {server}")
-            print(f"⏱️ Tempo resposta: {tempo:.2f}s")
-            print(f"🕒 Data recebida: {data.strftime('%d/%m/%Y %H:%M:%S')}")
-            
-            return data
-
-        except Exception as e:
-            print(f"❌ Erro com {server}: {str(e)}")
-
-    print("⚠️ Nenhum servidor NTP respondeu, usando hora local.")
+            return datetime.fromtimestamp(response.tx_time, tz=timezone.utc)
+        except Exception:
+            pass
     return None
 
 def _effective_expiry() -> datetime:
-    print("\n🔍 DEBUG LICENÇA")
-
-    print("📅 EXPIRY_DATE:", EXPIRY_DATE)
-
     ext = _load_ext()
-    print("📦 EXTENSÃO (.lic_ext):", ext)
 
     if ext and ext > EXPIRY_DATE:
-        print("✅ Usando EXTENSÃO")
         return ext
 
-    print("⚠️ Usando EXPIRY_DATE")
     return EXPIRY_DATE
 
 # --- FUNÇÕES PÚBLICAS ---
