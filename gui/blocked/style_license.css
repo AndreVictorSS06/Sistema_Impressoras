@@ -1,0 +1,198 @@
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Segoe UI", sans-serif;
+  background: #0f1117;
+  color: #e0e0e0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  user-select: none;
+}
+
+.card {
+  background: #1a1d27;
+  border: 1px solid #2a2d3a;
+  border-radius: 16px;
+  padding: 52px 48px;
+  max-width: 480px;
+  width: 90%;
+  text-align: center;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+.logo {
+  font-size: 13px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #555;
+  margin-bottom: 32px;
+}
+
+.icon-wrap {
+  width: 72px;
+  height: 72px;
+  background: #2a1a1a;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 24px;
+  border: 1px solid #3a2020;
+}
+
+.icon-wrap svg {
+  width: 32px;
+  height: 32px;
+  stroke: #e05555;
+}
+
+h1 {
+  font-size: 20px;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 12px;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: #888;
+  line-height: 1.7;
+  margin-bottom: 32px;
+}
+
+.info-box {
+  background: #12141c;
+  border: 1px solid #2a2d3a;
+  border-radius: 10px;
+  padding: 16px 20px;
+  font-size: 13px;
+  color: #aaa;
+  line-height: 1.8;
+  margin-bottom: 28px;
+  text-align: left;
+}
+
+.info-box span {
+  color: #fff;
+  font-weight: 500;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 99px;
+  font-size: 12px;
+  font-weight: 500;
+  margin-bottom: 28px;
+}
+
+.badge.expired {
+  background: #2a1010;
+  color: #ff6b6b;
+  border: 1px solid #3a1515;
+}
+.badge.offline {
+  background: #101528;
+  color: #6b8fff;
+  border: 1px solid #151d3a;
+}
+.badge.tampered {
+  background: #2a2010;
+  color: #ffa96b;
+  border: 1px solid #3a2e15;
+}
+
+.dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.8;
+}
+
+.contact {
+  font-size: 13px;
+  color: #555;
+}
+
+.contact strong {
+  color: #888;
+}
+
+#overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(10, 12, 18, 0.9);
+  backdrop-filter: blur(6px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  transition: opacity 0.5s ease-in-out;
+  opacity: 0;
+}
+
+.modal {
+  background: #1a1d27;
+  border: 1px solid #2a2d3a;
+  border-radius: 16px;
+  padding: 35px;
+  width: 360px;
+  text-align: center;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.6);
+  animation: modalEntrada 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes modalEntrada {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.modal input {
+  width: 100%;
+  background: #0f1117;
+  border: 1px solid #2a2d3a;
+  padding: 14px;
+  border-radius: 10px;
+  color: #fff;
+  margin: 10px 0 15px;
+  text-align: center;
+  font-size: 15px;
+  outline: none;
+}
+
+.modal button {
+  width: 100%;
+  padding: 14px;
+  background: #3498db;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+#status-renovacao {
+  margin-top: 15px;
+  font-size: 13px;
+}

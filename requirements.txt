@@ -1,0 +1,8 @@
+# Interface Gráfica e Ponte JS/Python
+pywebview==5.1
+
+# Sincronização de Hora para Licenciamento
+ntplib==0.4.0
+
+# Manipulação de caminhos (nativo no 3.4+, mas bom para garantir em venvs)
+pathlib==1.0.1

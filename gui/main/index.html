@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gestão de Impressoras</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <nav class="app-bar">
+      <div class="app-bar-brand">
+        <img src="../assets/LogoSerrana.jpg" alt="Logo" class="logo-img" />
+        <span class="logo-text"
+          >SRIS - Sistema Relatórios de Impressoras Serrana</span
+        >
+      </div>
+      <div class="app-bar-actions">
+        <button class="nav-btn active" onclick="switchTab('registro')">
+          Lançamentos
+        </button>
+        <button class="nav-btn" onclick="switchTab('historico', event)">
+          Histórico
+        </button>
+        <button class="nav-btn" onclick="switchTab('config')">
+          Configurações
+        </button>
+      </div>
+    </nav>
+
+    <div class="container">
+      <div id="tab-registro" class="tab-content active">
+        <section class="card">
+          <h3><i class="icon">🖨️</i> Registro de Consumo</h3>
+          <div class="grid">
+            <select id="imp-select">
+              <option value="" disabled selected>Selecione a Impressora</option>
+            </select>
+            <input type="text" id="serie" placeholder="Série" readonly />
+            <input type="text" id="setor" placeholder="Setor" readonly />
+            <input
+              type="number"
+              id="anterior"
+              placeholder="Leitura Mês Anterior"
+            />
+            <input type="number" id="atual" placeholder="Leitura Mês Atual" />
+          </div>
+          <button class="btn-primary" onclick="enviarRegistroImpressora()">
+            Salvar Registro
+          </button>
+        </section>
+
+        <section class="card">
+          <h3><i class="icon">📝</i> Registro de Comandas</h3>
+          <div class="grid">
+            <input type="text" id="comanda-desc" placeholder="Nome / Comanda" />
+
+            <input
+              type="text"
+              id="comanda-tipo"
+              placeholder="Tipo de Consumo"
+            />
+
+            <input type="text" id="comanda-setor" placeholder="Setor" />
+
+            <input
+              type="number"
+              id="comanda-val"
+              placeholder="Valor (R$)"
+              step="0.01"
+            />
+          </div>
+          <button class="btn-primary" onclick="enviarComanda()">
+            Salvar Comanda
+          </button>
+        </section>
+
+        <section class="card">
+          <div class="card-header-flex">
+            <h3>🔍 Conferência do Lançamento Atual</h3>
+
+            <div id="aviso-competencia" class="badge-competencia">
+              📅 Carregando período...
+            </div>
+          </div>
+
+          <ul id="live-treeview" class="treeview">
+            <li class="empty-msg">Nenhum item adicionado agora.</li>
+          </ul>
+
+          <button class="btn-success" onclick="gerarRelatorio()">
+            📄 Gerar Relatório Final
+          </button>
+        </section>
+      </div>
+
+      <div id="tab-historico" class="tab-content">
+        <section class="card full-width">
+          <div style="margin-bottom: 20px">
+            <h3>📜 Histórico Geral de Lançamentos</h3>
+          </div>
+
+          <div class="dashboard-horizontal">
+            <div class="card-dash card-blue">
+              <span class="card-label">Impressoras</span>
+              <h3 id="dash-imp" class="card-value">R$ 0,00</h3>
+            </div>
+            <div class="card-dash card-green">
+              <span class="card-label">Comandas</span>
+              <h3 id="dash-com" class="card-value">R$ 0,00</h3>
+            </div>
+            <div class="card-dash card-orange">
+              <span class="card-label">Páginas</span>
+              <h3 id="dash-paginas" class="card-value">0</h3>
+            </div>
+            <div class="card-dash card-dark">
+              <span class="card-label label-light">Total</span>
+              <h3 id="dash-geral" class="card-value">R$ 0,00</h3>
+            </div>
+          </div>
+
+          <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0" />
+
+          <div class="acoes-container">
+            <label class="label-filtro">Mês:</label>
+            <input
+              type="month"
+              id="filtro-mes"
+              onchange="atualizarTabelaHistorico()"
+              style="width: 160px; height: 45px"
+            />
+
+            <button class="btn-acao" onclick="atualizarTabelaHistorico()">
+              <i>🔄</i> Atualizar
+            </button>
+
+            <button class="btn-acao" onclick="exportarParaExcel()">
+              <i>📥</i> Exportar Excel
+            </button>
+
+            <button class="btn-acao" onclick="prepararImpressaoPDF()">
+              <i>🖨️</i> Imprimir PDF
+            </button>
+          </div>
+
+          <div class="table-container">
+            <table id="tabela-historico">
+              <thead>
+                <tr>
+                  <th>Tipo</th>
+                  <th>Item/Descrição</th>
+                  <th>Setor</th>
+                  <th>Valor (R$)</th>
+                </tr>
+              </thead>
+              <tbody id="corpo-tabela-historico">
+                <tr>
+                  <td colspan="4" style="text-align: center; padding: 20px">
+                    Clique em atualizar para carregar...
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <div id="tab-config" class="tab-content">
+      <section class="card" style="max-width: 520px; margin: 0 auto">
+        <h3>⚙️ Configurações do Sistema</h3>
+
+        <div
+          style="
+            margin-top: 24px;
+            padding: 20px;
+            background: #f8fafc;
+            border-radius: 10px;
+            border: 1px solid #e2e8f0;
+          "
+        >
+          <p style="font-weight: 600; margin-bottom: 6px; color: #2c3e50">
+            Informações da Licença
+          </p>
+          <div style="font-size: 14px; color: #555; line-height: 2">
+            <div>Válido até: <strong id="cfg-expiry">—</strong></div>
+            <div>Data verificada: <strong id="cfg-current">—</strong></div>
+            <div>Fonte: <strong id="cfg-source">—</strong></div>
+            <div
+              id="cfg-offline-warn"
+              style="display: none; color: #b45309; margin-top: 4px"
+            >
+              ⚠️ Sistema verificado offline — relógio local usado como
+              referência.
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top: 28px">
+          <p style="font-weight: 600; margin-bottom: 12px; color: #2c3e50">
+            🔑 Renovar Licença
+          </p>
+          <p style="font-size: 13px; color: #888; margin-bottom: 16px">
+            Insira a senha fornecida pelo suporte para estender o prazo de uso.
+          </p>
+          <div style="display: flex; gap: 10px; align-items: center">
+            <input
+              type="password"
+              id="cfg-senha"
+              placeholder="Digite a senha de renovação"
+              style="flex: 1"
+              onkeydown="if (event.key === 'Enter') renovarLicenca();"
+            />
+            <button
+              class="btn-primary"
+              onclick="renovarLicenca()"
+              style="white-space: nowrap"
+            >
+              Renovar
+            </button>
+          </div>
+          <div
+            id="cfg-resultado"
+            style="margin-top: 14px; font-size: 14px; display: none"
+          ></div>
+        </div>
+      </section>
+    </div>
+
+    <div
+      id="toast-container"
+      style="position: fixed; bottom: 20px; right: 20px; z-index: 9999"
+    ></div>
+    <div class="developer-footer">Desenvolvido por André Victor</div>
+    <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>

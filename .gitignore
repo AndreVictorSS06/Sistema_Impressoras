@@ -1,0 +1,32 @@
+# Ambientes Virtuais
+venv/
+.venv/
+env/
+ENV/
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Banco de Dados e Licenciamento (Dados Sensíveis)
+data/
+*.db
+*.lic_stamp
+*.lic_ext
+
+# Temporários de Impressão
+temp_print.html
+
+# Distribuição / Executáveis
+dist/
+build/
+*.spec
+
+# IDEs
+.vscode/
+.idea/
+.gemini/
+
+# Logs
+*.log

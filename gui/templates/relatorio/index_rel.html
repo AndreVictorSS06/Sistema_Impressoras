@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Relatório Serrana - {{MES_REFERENCIA}}</title>
+  <link rel="stylesheet" href="{{ESTILO_CSS}}" />
+</head>
+
+<body>
+  <div class="header">
+    <img src="{{LOGO_BASE64}}" class="logo" alt="Serrana" />
+    <div class="report-title">
+      <h1>Gestão de Custos de Impressão</h1>
+      <p>Período: {{MES_REFERENCIA}}</p>
+    </div>
+  </div>
+
+  <div class="summary-container">
+    <div class="card">
+      <span>Impressoras</span>
+      <strong>R$ {{TOTAL_IMP}}</strong>
+    </div>
+    <div class="card">
+      <span>Comandas</span>
+      <strong>R$ {{TOTAL_COM}}</strong>
+    </div>
+    <div class="card">
+      <span>Total Páginas</span>
+      <strong>{{TOTAL_PAGINAS}}</strong>
+    </div>
+    <div class="card total">
+      <span>Custo Total do Mês</span>
+      <strong>R$ {{TOTAL_GERAL}}</strong>
+    </div>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Tipo</th>
+        <th>Descrição / Modelo</th>
+        <th>Tipo Consumo</th>
+        <th>Setor</th>
+        <th>Série</th>
+        <th>L. Anterior</th>
+        <th>L. Atual</th>
+        <th>Consumo</th>
+        <th>Custo (R$)</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{TABELA_ROWS}}
+    </tbody>
+  </table>
+
+  <div class="signatures">
+    <div class="sig-box">
+      <div class="sig-line"></div>
+      <strong>Supervisor Maxwell Santos</strong>
+    </div>
+  </div>
+  <button id="btn-back" class="no-print" onclick="voltar()">← Voltar</button>
+
+  <script>
+    function voltar() {
+      if (window.pywebview && window.pywebview.api) {
+        window.pywebview.api.voltar_inicio();
+      }
+    }
+  </script>
+</body>
+
+</html>

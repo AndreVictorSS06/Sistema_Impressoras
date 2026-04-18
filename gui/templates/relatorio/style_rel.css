@@ -1,0 +1,163 @@
+/* Configurações de página para impressão horizontal */
+@page {
+  size: A4 landscape;
+  margin: 1cm;
+}
+
+body {
+  font-family: "Segoe UI", Arial, sans-serif;
+  color: #1e293b;
+  margin: 0;
+  padding: 20px;
+  background-color: white;
+}
+
+/* Cabeçalho Profissional */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 3px solid #0f172a;
+  padding-bottom: 20px;
+  margin-bottom: 30px;
+}
+
+.logo {
+  height: 70px;
+  width: auto;
+}
+
+.report-title {
+  text-align: right;
+}
+
+.report-title h1 {
+  margin: 0;
+  font-size: 24px;
+  color: #0f172a;
+}
+
+.report-title p {
+  margin: 5px 0 0 0;
+  color: #64748b;
+  font-weight: bold;
+}
+
+/* Grid de Resumo (Cards) */
+.summary-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.card {
+  border: 1px solid #e2e8f0;
+  padding: 15px;
+  border-radius: 10px;
+  background: #f8fafc;
+}
+
+.card span {
+  display: block;
+  font-size: 11px;
+  text-transform: uppercase;
+  color: #64748b;
+  letter-spacing: 0.05em;
+  margin-bottom: 5px;
+}
+
+.card strong {
+  font-size: 20px;
+  color: #0f172a;
+}
+
+.card.total {
+  background: #0f172a;
+  border-color: #0f172a;
+}
+
+.card.total span,
+.card.total strong {
+  color: #ffffff;
+}
+
+/* Tabela de Dados */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+th {
+  background-color: #f1f5f9;
+  color: #475569;
+  text-transform: uppercase;
+  font-size: 11px;
+  padding: 12px;
+  border-bottom: 2px solid #cbd5e1;
+  text-align: left;
+}
+
+td {
+  padding: 10px;
+  border-bottom: 1px solid #e2e8f0;
+  font-size: 12px;
+}
+
+tr:nth-child(even) {
+  background-color: #f8fafc;
+}
+
+/* Assinaturas no Rodapé */
+.signatures {
+  margin-top: 60px;
+  display: flex;
+  justify-content: center;
+}
+
+.sig-box {
+  text-align: center;
+  width: 280px;
+}
+
+.sig-line {
+  border-top: 1px solid #1e293b;
+  margin-bottom: 10px;
+}
+
+.sig-box strong {
+  font-size: 16px;
+  color: #0f172a;
+}
+
+/* Botão de Voltar */
+#btn-back {
+  position: fixed;
+  bottom: 30px;
+  left: 30px;
+  padding: 12px 24px;
+  background-color: #0f172a;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transition: background 0.3s;
+  z-index: 1000;
+}
+
+#btn-back:hover {
+  background-color: #334155;
+}
+
+/* Esconder elementos na impressão */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  #btn-back {
+    display: none !important;
+  }
+}

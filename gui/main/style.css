@@ -1,0 +1,547 @@
+/* --- Variáveis e Reset --- */
+:root {
+  --primary-light: #3498db;
+  --primary-dark: #2980b9;
+  --bg-color: #eef2f5; /* Fundo cinza suave */
+  --app-bar-bg: #ffffff; /* App Bar Branca */
+  --text-color: #2c3e50;
+  --text-muted: #7f8c8d;
+  --white: #ffffff;
+  --border-color: #dcdde1;
+  --success: #27ae60;
+  --danger: #ff7675;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--bg-color);
+  margin: 0;
+  padding-top: 90px; /* Espaço para a App Bar */
+  display: flex;
+  justify-content: center;
+  color: var(--text-color);
+}
+
+.container {
+  width: 95%;
+  max-width: 1000px;
+}
+
+/* --- App Bar (Cabeçalho Fixo) --- */
+.app-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 65px;
+  background-color: var(--app-bar-bg);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 25px;
+  z-index: 1000;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.app-bar-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo-img {
+  height: 40px;
+  width: auto;
+  object-fit: contain;
+}
+
+.logo-text {
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.nav-btn {
+  background: transparent;
+  color: var(--text-color);
+  border: none;
+  padding: 10px 18px;
+  border-radius: 6px;
+  opacity: 0.6;
+  cursor: pointer;
+  transition: 0.3s;
+  font-weight: 500;
+}
+
+.nav-btn.active {
+  opacity: 1;
+  background: #f0f3f5;
+  color: var(--primary-dark);
+  font-weight: 700;
+}
+
+/* --- Cards de Conteúdo --- */
+.card {
+  background: var(--white);
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.04);
+  margin-bottom: 25px;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  border-bottom: 2px solid var(--bg-color);
+  padding-bottom: 12px;
+}
+
+h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* --- Grid e Formulários --- */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+input,
+select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  font-size: 14px;
+  outline: none;
+  transition: border 0.2s;
+}
+
+input:focus,
+select:focus {
+  border-color: var(--primary-light);
+}
+
+/* --- Botões --- */
+button {
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.2s;
+}
+
+.btn-primary {
+  background: var(--primary-dark);
+  color: white;
+}
+.btn-primary:hover {
+  background: #1c638e;
+}
+
+.btn-success {
+  background: var(--success);
+  color: white;
+}
+.btn-success:hover {
+  background: #219150;
+}
+
+.btn-outline {
+  background: #fff;
+  border: 1.5px solid var(--primary-light);
+  color: var(--primary-dark);
+}
+.btn-outline:hover {
+  background: var(--bg-color);
+}
+
+.btn-delete {
+  background: var(--danger);
+  color: white;
+  padding: 6px 12px;
+  font-size: 0.8rem;
+}
+
+/* --- Tabela de Histórico (Estilo Cartões Separados) --- */
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+}
+
+#tabela-historico {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 12px; /* Espaço vertical entre as linhas */
+}
+
+#tabela-historico th {
+  padding: 10px 15px;
+  text-align: left;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+#tabela-historico tbody tr {
+  background-color: var(--white);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s;
+}
+
+#tabela-historico tbody tr:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#tabela-historico td {
+  padding: 18px 15px; /* Respiro interno das células */
+  font-size: 0.95rem;
+}
+
+/* Arredondar cantos das linhas da tabela */
+#tabela-historico tbody tr td:first-child {
+  border-radius: 10px 0 0 10px;
+}
+#tabela-historico tbody tr td:last-child {
+  border-radius: 0 10px 10px 0;
+}
+
+/* --- Tabs --- */
+.tab-content {
+  display: none;
+}
+.tab-content.active {
+  display: block;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Container da tabela para permitir rolagem se necessário */
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+}
+
+#tabela-historico {
+  width: 100%;
+  border-collapse: separate; /* ESSENCIAL: Permite o espaço entre as linhas */
+  border-spacing: 0 12px; /* Cria 12px de espaço vertical entre cada registro */
+  margin-top: 10px;
+}
+
+#tabela-historico thead th {
+  padding: 10px 15px;
+  text-align: left;
+  color: #6b7280;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Estilização de cada linha como se fosse um card */
+#tabela-historico tbody tr {
+  background-color: #ffffff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
+}
+
+#tabela-historico tbody tr:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Arredondamento das bordas das linhas separadas */
+#tabela-historico tbody tr td:first-child {
+  border-radius: 8px 0 0 8px;
+}
+#tabela-historico tbody tr td:last-child {
+  border-radius: 0 8px 8px 0;
+}
+
+.toast {
+  background: #333;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 8px;
+  margin-top: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  animation: slideIn 0.3s ease-out;
+}
+
+.toast.success {
+  border-left: 5px solid #28a745;
+}
+.toast.error {
+  border-left: 5px solid #dc3545;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.toast-fade-out {
+  opacity: 0;
+  transition: opacity 0.5s ease-out;
+}
+
+/* Container do Dashboard para ficar em uma linha só */
+.dashboard-horizontal {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+/* Estilo dos Cards */
+.card-dash {
+  flex: 1; /* Faz todos terem o mesmo tamanho */
+  background: white;
+  padding: 15px 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  border-left: 5px solid #ccc;
+  display: flex;
+  flex-direction: column;
+}
+
+.card-blue {
+  border-left-color: #3b82f6;
+}
+.card-green {
+  border-left-color: #10b981;
+}
+.card-orange {
+  border-left-color: #f59e0b;
+}
+.card-dark {
+  background: #1e293b;
+  color: white;
+  border-left: none;
+}
+
+.card-label {
+  font-size: 11px;
+  font-weight: bold;
+  color: #64748b;
+  text-transform: uppercase;
+  margin-bottom: 5px;
+}
+.label-light {
+  color: #94a3b8;
+}
+.card-value {
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: bold;
+}
+
+.developer-footer {
+  position: fixed;
+  bottom: 12px; /* Distância sutil do rodapé */
+  left: 50%; /* Move para o meio */
+  transform: translateX(-50%); /* Garante centralização perfeita */
+
+  font-size: 10px; /* Fonte pequena e elegante */
+  font-weight: 600; /* Um pouco de negrito para legibilidade */
+  letter-spacing: 1.2px; /* Espaçamento entre letras (estilo premium) */
+  text-transform: uppercase; /* Letras maiúsculas ficam mais profissionais em créditos */
+
+  color: var(--text-muted); /* Usa a cor cinza que você já tem no projeto */
+  opacity: 0.3; /* Transparência alta para ser discreto */
+
+  z-index: 9999; /* Fica por cima de tudo */
+  pointer-events: none; /* O mouse "atravessa" o texto */
+  user-select: none; /* Impede que o usuário selecione o texto sem querer */
+  transition: opacity 0.3s; /* Efeito suave se você quiser mudar no hover */
+}
+
+/* Opcional: Se quiser que ele apareça um pouco mais quando passar o mouse perto */
+body:hover .developer-footer {
+  opacity: 0.5;
+}
+
+/* Container que empurra o título para a esquerda e o selo para a direita */
+.card-header-flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  width: 100%;
+}
+
+/* Estilização do selo (Badge) conforme seu design */
+.badge-competencia {
+  color: #475569 !important; /* Cor cinza escuro */
+  font-weight: bold;
+  background: #e2e8f0 !important; /* Fundo cinza claro */
+  padding: 6px 14px;
+  border-radius: 20px; /* Bordas bem arredondadas */
+  font-size: 0.9rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Removemos as margens padrão do H3 para não desalinharem o flex */
+.card-header-flex h3 {
+  margin: 0;
+}
+
+/* Container para alinhar os botões lado a lado */
+.acoes-historico {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+/* Base comum para todos os botões de ação */
+.btn-acao {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 40px;
+  padding: 0 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid #cbd5e1;
+  background-color: #ffffff;
+  color: #334155;
+  min-width: 140px;
+}
+
+.btn-acao:hover {
+  background-color: #f8fafc;
+  border-color: #94a3b8;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+/* --- Padronização dos Botões de Ação --- */
+
+.acoes-historico {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+/* Base única para todos os botões da área de histórico */
+.acoes-historico button {
+  /* Tamanho Fixo: Garante que sejam iguais independente do texto */
+  min-width: 165px;
+  height: 45px;
+
+  /* Alinhamento de Ícone e Texto */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  /* Estilo Visual */
+  padding: 0 15px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+  background: #ffffff; /* Fundo branco para todos */
+}
+
+/* --- Padronização Total dos Botões --- */
+
+/* --- Container de Ações do Histórico --- */
+/* --- Container de Ações Alinhado à Esquerda --- */
+.acoes-container {
+  display: flex;
+  justify-content: flex-start; /* Alinha tudo para a esquerda */
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 25px;
+  width: 100%;
+}
+
+/* --- Padronização dos Botões e Input --- */
+.btn-acao,
+#filtro-mes {
+  height: 40px; /* Altura idêntica para todos */
+  border-radius: 8px;
+  border: 1.5px solid var(--primary-light);
+  font-family: inherit;
+}
+
+.btn-acao {
+  min-width: 150px; /* Largura padronizada */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background-color: #ffffff;
+  color: var(--primary-dark);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  padding: 0 15px;
+}
+
+#filtro-mes {
+  width: 180px;
+  padding: 0 10px;
+  color: var(--text-color);
+  background-color: #ffffff;
+}
+
+.btn-acao:hover {
+  background-color: var(--bg-color);
+  transform: translateY(-2px);
+}
+
+.label-filtro {
+  font-weight: bold;
+  color: var(--text-color);
+  margin-right: 5px;
+}
