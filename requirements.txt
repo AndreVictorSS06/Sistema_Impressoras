@@ -6,3 +6,6 @@ ntplib==0.4.0
 
 # Manipulação de caminhos (nativo no 3.4+, mas bom para garantir em venvs)
 pathlib==1.0.1
+
+# Variáveis de Ambiente
+python-dotenv==1.0.1

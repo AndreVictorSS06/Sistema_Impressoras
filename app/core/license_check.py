@@ -6,6 +6,7 @@ import json
 import hashlib
 import sys
 from datetime import datetime, timezone, timedelta
+from dotenv import load_dotenv
 
 # ============================================================
 #  Configuração de Caminhos (Local - Mesma pasta do EXE)
@@ -34,13 +35,23 @@ def get_storage_path():
 _STORAGE = get_storage_path()
 _STAMP_FILE = os.path.join(_STORAGE, ".lic_stamp") # Arquivo oculto de timestamp
 _EXT_FILE   = os.path.join(_STORAGE, ".lic_ext")   # Arquivo oculto de extensão
-_SECRET = "serrana_gestao_2024"
+
+# Carrega segredos do arquivo .env na raiz
+if getattr(sys, 'frozen', False):
+    _ROOT = Path(sys.executable).parent
+else:
+    _ROOT = Path(__file__).resolve().parent.parent.parent
+
+load_dotenv(_ROOT / ".env")
+
+_SECRET = os.getenv("LICENSE_SECRET", "fallback_serrana_2024")
 
 # ============================================================
 #  Data base de expiracao do sistema
 # ============================================================
 EXPIRY_DATE = datetime(2026, 4, 10, tzinfo=timezone.utc)
-_SENHA_HASH = hashlib.sha256("Serrana@2026".encode()).hexdigest()
+_ADMIN_PASS = os.getenv("ADMIN_PASSWORD", "Serrana@2026")
+_SENHA_HASH = hashlib.sha256(_ADMIN_PASS.encode()).hexdigest()
 _EXTENSION_DAYS = 180
 
 # --- FUNÇÕES INTERNAS AUXILIARES ---
